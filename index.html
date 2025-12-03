@@ -1159,9 +1159,9 @@
             // Update dashboard with user data
             document.getElementById('userNameDisplay').textContent = user.name;
             document.getElementById('userNameNav').textContent = user.name;
-            document.getElementById('balanceDisplay').textContent = '$' + user.balance.toFixed(2);
-            document.getElementById('incomeDisplay').textContent = '$' + user.monthlyIncome.toFixed(2);
-            document.getElementById('expensesDisplay').textContent = '$' + user.monthlyExpenses.toFixed(2);
+            document.getElementById('balanceDisplay').textContent = '$' + user.balance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('incomeDisplay').textContent = '$' + user.monthlyIncome.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+            document.getElementById('expensesDisplay').textContent = '$' + user.monthlyExpenses.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 
             const savingsRate = ((user.monthlyIncome - user.monthlyExpenses) / user.monthlyIncome * 100).toFixed(1);
             document.getElementById('savingsRateDisplay').textContent = savingsRate + '%';
@@ -1250,7 +1250,7 @@
         function payBill(billName, amount) {
             if (userBalance >= amount) {
                 userBalance -= amount;
-                document.getElementById('balanceDisplay').textContent = '$' + userBalance.toFixed(2);
+                document.getElementById('balanceDisplay').textContent = '$' + userBalance.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
                 alert(`Bill payment of $${amount.toFixed(2)} for "${billName}" processed!`);
                 const user = users[currentUser];
                 user.balance = userBalance;
