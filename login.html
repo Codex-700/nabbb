@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🏦Optimusex - Login</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        /* ===== LOGIN PAGE STYLES ===== */
+        .login-page {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        .login-container {
+            background: white;
+            padding: 60px 50px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .login-header h1 {
+            font-size: 36px;
+            color: #667eea;
+            margin-bottom: 10px;
+        }
+
+        .login-header p {
+            color: #999;
+            font-size: 14px;
+        }
+
+        .form-group {
+            margin-bottom: 25px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 10px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 14px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: border-color 0.3s;
+            font-family: inherit;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 15px;
+        }
+
+        .login-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .demo-credentials {
+            text-align: center;
+            margin-top: 25px;
+            padding-top: 25px;
+            border-top: 1px solid #e0e0e0;
+            color: #999;
+            font-size: 12px;
+        }
+
+        .demo-credentials strong {
+            color: #667eea;
+        }
+
+        .error-message {
+            background: #ffebee;
+            color: #c62828;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            display: none;
+        }
+
+        /* ===== DASHBOARD PAGE STYLES ===== */
+        .dashboard-page {
+            display: none;
+            background: #f5f5f5;
+            min-height: 100vh;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 28px;
+        }
+
+        .navbar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .navbar h1 {
+            font-size: 28px;
+        }
+
+        .navbar-right {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+        }
+
+        .logout-btn {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+            padding: 10px 20px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .logout-btn:hover {
+            background: white;
+            color: #667eea;
+        }
+
+        .sidebar {
+            position: fixed;
+            left: 0;
+            top: 0;
+            width: 260px;
+            height: 100vh;
+            background: white;
+            box-shadow: 2px 0 10px rgba(0, 0, 0, 0.05);
+            padding: 20px;
+            overflow-y: auto;
+            margin-top: 80px;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 8px;
+            cursor: pointer;
+            text-align: left;
+            color: #666;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-btn:hover {
+            background: #f5f5f5;
+            color: #667eea;
+        }
+
+        .nav-btn.active {
+            background: linear-gradient(135deg, rgba(102, 126, 234, 0.1) 0%, rgba(118, 75, 162, 0.1) 100%);
+            color: #667eea;
+            border-left: 3px solid #667eea;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 40px;
+            margin-top: 80px;
+        }
+
+        .section {
+            display: none;
+        }
+
+        .section.active {
+            display: block;
+        }
+
+        .section-title {
+            font-size: 24px;
+            color: #333;
+            margin-bottom: 30px;
+        }
+
+        .form-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            max-width: 600px;
+        }
+
+        .form-section h3 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 12px 30px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-submit:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .items-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 25px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .item-card h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .item-amount {
+            font-size: 20px;
+            font-weight: bold;
+            color: #667eea;
+            margin: 10px 0;
+        }
+
+        .item-details {
+            font-size: 12px;
+            color: #999;
+            margin-bottom: 10px;
+        }
+
+        .success-message {
+            background: #c8e6c9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .welcome-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .welcome-section h2 {
+            color: #333;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .welcome-section p {
+            color: #999;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .info-card {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            text-align: center;
+            overflow: hidden;
+            word-break: break-word;
+        }
+
+        .card-label {
+            color: #999;
+            font-size: 13px;
+            margin-bottom: 15px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .card-amount {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+            margin-bottom: 10px;
+            word-break: break-word;
+            overflow-wrap: break-word;
+        }
+
+        .card-description {
+            color: #999;
+            font-size: 13px;
+        }
+
+        .transactions-section {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+
+        .transactions-section h3 {
+            margin-bottom: 25px;
+            color: #333;
+            font-size: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background: #f5f5f5;
+            padding: 15px;
+            text-align: left;
+            font-weight: 600;
+            color: #666;
+            border-bottom: 2px solid #e0e0e0;
+            font-size: 13px;
+        }
+
+        td {
+            padding: 15px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #555;
+        }
+
+        .credit {
+            color: #4caf50;
+            font-weight: 600;
+        }
+
+        .debit {
+            color: #f44336;
+            font-weight: 600;
+        }
+
+        tbody tr:hover {
+            background: #f9f9f9;
+        }
+
+        .item-card {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+            border-left: 4px solid #667eea;
+        }
+
+        .item-card h4 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 16px;
+        }
+
+        .item-amount {
+            font-size: 18px;
+            font-weight: 600;
+            color: #667eea;
+            margin: 8px 0;
+        }
+
+        .item-details {
+            font-size: 13px;
+            color: #999;
+            margin: 5px 0;
+        }
+
+        .success-message {
+            background: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-size: 14px;
+            border-left: 4px solid #4caf50;
+            display: none;
+        }
+
+        /* ===== MOBILE RESPONSIVE STYLES ===== */
+        @media (max-width: 1024px) {
+            .sidebar {
+                width: 220px;
+            }
+
+            .main-content {
+                margin-left: 220px;
+                padding: 30px 20px;
+            }
+
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .items-grid {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                padding: 40px 25px;
+            }
+
+            .login-header h1 {
+                font-size: 28px;
+            }
+
+            .navbar {
+                flex-direction: row;
+                gap: 10px;
+                padding: 15px;
+                justify-content: space-between;
+                align-items: center;
+            }
+
+            .navbar h1 {
+                font-size: 20px;
+            }
+
+            .navbar-right {
+                gap: 10px;
+                font-size: 12px;
+            }
+
+            .logout-btn {
+                padding: 8px 12px;
+                font-size: 12px;
+            }
+
+            .sidebar {
+                position: fixed;
+                left: 0;
+                top: 80px;
+                width: 100%;
+                height: auto;
+                max-height: 0;
+                background: white;
+                box-shadow: none;
+                padding: 0;
+                overflow: hidden;
+                transition: max-height 0.3s ease;
+                z-index: 100;
+            }
+
+            .sidebar.open {
+                max-height: 400px;
+                box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+                padding: 15px;
+            }
+
+            .sidebar-nav {
+                display: flex;
+                flex-direction: column;
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 10px 12px;
+                font-size: 14px;
+                width: 100%;
+            }
+
+            .nav-btn.active {
+                border-left: 3px solid #667eea;
+            }
+
+            .main-content {
+                margin-left: 0;
+                padding: 15px;
+                margin-top: 80px;
+            }
+
+            .section-title {
+                font-size: 20px;
+                margin-bottom: 20px;
+            }
+
+            .form-section {
+                padding: 20px;
+                max-width: 100%;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+            }
+
+            .info-card {
+                padding: 20px;
+            }
+
+            .card-amount {
+                font-size: 20px;
+            }
+
+            .card-label {
+                font-size: 12px;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+                gap: 15px;
+                margin-bottom: 20px;
+            }
+
+            .item-card {
+                padding: 15px;
+            }
+
+            .item-card h4 {
+                font-size: 14px;
+            }
+
+            .item-amount {
+                font-size: 16px;
+            }
+
+            .item-details {
+                font-size: 12px;
+            }
+
+            .transactions-section {
+                padding: 15px;
+                overflow-x: auto;
+            }
+
+            .transactions-section h3 {
+                font-size: 16px;
+                margin-bottom: 15px;
+            }
+
+            table {
+                width: 100%;
+                font-size: 12px;
+            }
+
+            th, td {
+                padding: 10px;
+                font-size: 11px;
+            }
+
+            .form-group {
+                margin-bottom: 15px;
+            }
+
+            .form-group label {
+                font-size: 13px;
+                margin-bottom: 6px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px;
+                font-size: 14px;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .success-message {
+                padding: 12px;
+                font-size: 12px;
+                margin-bottom: 15px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .login-container {
+                padding: 30px 15px;
+                border-radius: 12px;
+            }
+
+            .login-header h1 {
+                font-size: 24px;
+            }
+
+            .login-header p {
+                font-size: 12px;
+            }
+
+            .form-group input {
+                padding: 12px;
+                font-size: 16px;
+            }
+
+            .login-btn {
+                padding: 12px;
+                font-size: 14px;
+            }
+
+            .navbar {
+                padding: 12px;
+                gap: 5px;
+            }
+
+            .navbar h1 {
+                font-size: 18px;
+            }
+
+            .navbar-right {
+                gap: 5px;
+                flex-direction: column;
+                align-items: flex-end;
+            }
+
+            .navbar-right span {
+                display: none;
+            }
+
+            .logout-btn {
+                padding: 6px 10px;
+                font-size: 11px;
+            }
+
+            .main-content {
+                padding: 12px;
+                margin-top: 80px;
+            }
+
+            .section-title {
+                font-size: 18px;
+                margin-bottom: 15px;
+            }
+
+            .form-section {
+                padding: 15px;
+                border-radius: 8px;
+            }
+
+            .form-section h3 {
+                font-size: 14px;
+                margin-bottom: 15px;
+            }
+
+            .cards-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .info-card {
+                padding: 15px;
+                border-radius: 10px;
+            }
+
+            .card-amount {
+                font-size: 18px;
+            }
+
+            .card-label {
+                font-size: 11px;
+            }
+
+            .card-description {
+                font-size: 11px;
+            }
+
+            .items-grid {
+                grid-template-columns: 1fr;
+                gap: 12px;
+            }
+
+            .item-card {
+                padding: 12px;
+                border-radius: 8px;
+            }
+
+            .item-card h4 {
+                font-size: 13px;
+                margin-bottom: 8px;
+            }
+
+            .item-amount {
+                font-size: 15px;
+                margin: 6px 0;
+            }
+
+            .item-details {
+                font-size: 11px;
+                margin: 3px 0;
+            }
+
+            .transactions-section {
+                padding: 12px;
+                border-radius: 8px;
+            }
+
+            .transactions-section h3 {
+                font-size: 15px;
+                margin-bottom: 12px;
+            }
+
+            table {
+                font-size: 10px;
+            }
+
+            th, td {
+                padding: 8px;
+                font-size: 10px;
+            }
+
+            .form-group {
+                margin-bottom: 12px;
+            }
+
+            .form-group label {
+                font-size: 12px;
+                margin-bottom: 5px;
+            }
+
+            .form-group input,
+            .form-group select,
+            .form-group textarea {
+                padding: 10px;
+                font-size: 14px;
+                border-radius: 6px;
+            }
+
+            .btn-submit {
+                width: 100%;
+                padding: 11px;
+                font-size: 13px;
+                border-radius: 6px;
+            }
+
+            .demo-credentials {
+                font-size: 10px;
+                margin-top: 15px;
+                padding-top: 15px;
+            }
+
+            .success-message {
+                padding: 10px;
+                font-size: 11px;
+                border-radius: 6px;
+                margin-bottom: 12px;
+            }
+
+            .error-message {
+                padding: 10px;
+                font-size: 11px;
+                border-radius: 6px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .login-container {
+                padding: 25px 12px;
+                max-width: 100%;
+            }
+
+            .login-header h1 {
+                font-size: 22px;
+            }
+
+            .login-header {
+                margin-bottom: 30px;
+            }
+
+            .navbar {
+                padding: 10px;
+                flex-wrap: wrap;
+            }
+
+            .navbar h1 {
+                font-size: 16px;
+                flex: 1;
+            }
+
+            .main-content {
+                padding: 10px;
+            }
+
+            .section-title {
+                font-size: 16px;
+                margin-bottom: 12px;
+            }
+
+            .form-section {
+                padding: 12px;
+            }
+
+            .cards-grid {
+                gap: 8px;
+            }
+
+            .info-card {
+                padding: 12px;
+            }
+
+            .card-amount {
+                font-size: 16px;
+            }
+
+            .items-grid {
+                gap: 10px;
+            }
+
+            table {
+                font-size: 9px;
+            }
+
+            th, td {
+                padding: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- LOGIN PAGE -->
+    <div id="loginPage" class="login-page">
+        <div class="login-container">
+            <div class="login-header">
+                <h1>🏦Optimusex</h1>
+                <p>Your Trusted Financial Partner</p>
+            </div>
+            <div id="errorMessage" class="error-message"></div>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <input type="text" id="username" placeholder="Enter your username" required>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" placeholder="Enter your password" required>
+                </div>
+                <button type="submit" class="login-btn">Login to Your Account</button>
+            </form>
+
+        </div>
+    </div>
+
+    <!-- DASHBOARD PAGE -->
+    <div id="dashboardPage" class="dashboard-page">
+        <div class="navbar">
+            <h1>🏦Optimusex</h1>
+            <button class="menu-toggle" id="menuToggle" onclick="toggleMobileMenu()" style="display: none; background: none; border: none; color: white; font-size: 24px; cursor: pointer;">☰</button>
+            <div class="navbar-right">
+                <span id="userNameNav"></span>
+                <button class="logout-btn" onclick="logout()">Logout</button>
+            </div>
+        </div>
+
+        <div class="sidebar" id="sidebar">
+            <nav class="sidebar-nav">
+                <button class="nav-btn active" onclick="switchSection('overview')">📊 Overview</button>
+                <button class="nav-btn" onclick="switchSection('transfer')">💸 Transfer Money</button>
+                <button class="nav-btn" onclick="switchSection('bills')">📄 Pay Bills</button>
+                <button class="nav-btn" onclick="switchSection('savings')">🏦 Savings Goals</button>
+            </nav>
+        </div>
+
+        <div class="main-content">
+            <!-- Overview Section -->
+            <div id="overview" class="section active">
+                <h2 class="section-title">Welcome, <span id="userNameDisplay">User</span>! 👋</h2>
+
+                <div class="cards-grid">
+                    <div class="info-card">
+                        <div class="card-label">Current Balance</div>
+                        <div class="card-amount" id="balanceDisplay">$0.00</div>
+                        <div class="card-description">Available Funds</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-label">Monthly Income</div>
+                        <div class="card-amount" id="incomeDisplay">$0.00</div>
+                        <div class="card-description">This Month</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-label">Monthly Expenses</div>
+                        <div class="card-amount" id="expensesDisplay">$0.00</div>
+                        <div class="card-description">This Month</div>
+                    </div>
+                    <div class="info-card">
+                        <div class="card-label">Savings Rate</div>
+                        <div class="card-amount" id="savingsRateDisplay">0%</div>
+                        <div class="card-description">Of Your Income</div>
+                    </div>
+                </div>
+
+                <div class="transactions-section">
+                    <h3>Recent Transactions</h3>
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Description</th>
+                                <th>Amount</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody id="transactionsTable">
+                            <!-- Transactions will be populated here -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Transfer Money Section -->
+            <div id="transfer" class="section">
+                <h2 class="section-title">💸 Transfer Money</h2>
+                <div class="form-section">
+                    <h3>Send Money to Another Account</h3>
+                    <div id="transferMessage" class="success-message"></div>
+                    <form id="transferForm">
+                        <div class="form-group">
+                            <label>Recipient Name</label>
+                            <input type="text" id="recipientName" placeholder="John Smith" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Account Number</label>
+                            <input type="text" id="recipientAccount" placeholder="1234567890" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Bank Name</label>
+                            <input type="text" id="recipientBank" placeholder="Chase Bank" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="number" id="transferAmount" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Note (Optional)</label>
+                            <textarea id="transferNote" placeholder="Add a note for this transfer" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Send Money</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Pay Bills Section -->
+            <div id="bills" class="section">
+                <h2 class="section-title">📄 Pay Bills</h2>
+                <div class="items-grid" id="billsContainer"></div>
+                <div class="form-section" style="margin-top: 30px;">
+                    <h3>Add New Bill</h3>
+                    <form id="billForm">
+                        <div class="form-group">
+                            <label>Bill Name</label>
+                            <input type="text" id="billName" placeholder="e.g., Electric Bill" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Amount</label>
+                            <input type="number" id="billAmount" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Due Date</label>
+                            <input type="date" id="billDueDate" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Add Bill</button>
+                    </form>
+                </div>
+            </div>
+
+            <!-- Savings Goals Section -->
+            <div id="savings" class="section">
+                <h2 class="section-title">🏦 Savings Goals</h2>
+                <div class="items-grid" id="savingsContainer"></div>
+                <div class="form-section" style="margin-top: 30px;">
+                    <h3>Create New Savings Goal</h3>
+                    <form id="savingsForm">
+                        <div class="form-group">
+                            <label>Goal Name</label>
+                            <input type="text" id="goalName" placeholder="e.g., Vacation Fund" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Amount</label>
+                            <input type="number" id="goalTarget" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Current Savings</label>
+                            <input type="number" id="goalSaved" placeholder="0.00" step="0.01" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Target Date</label>
+                            <input type="date" id="goalDeadline" required>
+                        </div>
+                        <button type="submit" class="btn-submit">Create Goal</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // User Database
+        const users = {
+            michael09: {
+                password: 'michaelcares1',
+                name: 'Michael Silva',
+                balance: 243623475.22,
+                monthlyIncome: 38000,
+                monthlyExpenses: 13700,
+                bills: [
+                    { name: 'Electricity', amount: 150, dueDate: '2025-12-15', paid: false },
+                    { name: 'Internet', amount: 80, dueDate: '2025-12-20', paid: false },
+                    { name: 'Water', amount: 60, dueDate: '2025-12-10', paid: true }
+                ],
+                savingsGoals: [
+                    { name: 'Vacation Fund', target: 10000, saved: 6500, deadline: '2026-06-01' },
+                    { name: 'Emergency Fund', target: 50000, saved: 35000, deadline: '2026-12-01' },
+                    { name: 'Car Fund', target: 25000, saved: 12500, deadline: '2027-03-01' }
+                ],
+                transactions: [
+                    { date: '2025-12-03', description: 'Salary Deposit', amount: '+2500.00', type: 'credit', status: 'completed' },
+                    { date: '2025-12-02', description: 'Grocery Store', amount: '-85.50', type: 'debit', status: 'completed' },
+                    { date: '2025-12-01', description: 'Gas Station', amount: '-45.00', type: 'debit', status: 'completed' },
+                    { date: '2025-11-30', description: 'Online Transfer', amount: '-300.00', type: 'debit', status: 'completed' },
+                    { date: '2025-11-28', description: 'Restaurant', amount: '-65.25', type: 'debit', status: 'completed' },
+                    { date: '2025-11-25', description: 'Refund', amount: '+150.00', type: 'credit', status: 'completed' }
+                ]
+            }
+        };
+
+        let currentUser = null;
+        let userBalance = 243623475.22;
+
+        // Wait for DOM to load before attaching event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Handle Login
+            document.getElementById('loginForm').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                const username = document.getElementById('username').value.trim();
+                const password = document.getElementById('password').value.trim();
+                const errorMessage = document.getElementById('errorMessage');
+
+                // Validate credentials
+                if (users[username] && users[username].password === password) {
+                    currentUser = username;
+                    login();
+                    this.reset();
+                    errorMessage.style.display = 'none';
+                } else {
+                    errorMessage.textContent = 'Invalid username or password!';
+                    errorMessage.style.display = 'block';
+                    document.getElementById('password').value = '';
+                }
+            });
+        });
+
+        // Login Function
+        function login() {
+            const user = users[currentUser];
+
+            // Update dashboard with user data
+            document.getElementById('userNameDisplay').textContent = user.name;
+            document.getElementById('userNameNav').textContent = user.name;
+            document.getElementById('balanceDisplay').textContent = '$' + user.balance.toFixed(2);
+            document.getElementById('incomeDisplay').textContent = '$' + user.monthlyIncome.toFixed(2);
+            document.getElementById('expensesDisplay').textContent = '$' + user.monthlyExpenses.toFixed(2);
+
+            const savingsRate = ((user.monthlyIncome - user.monthlyExpenses) / user.monthlyIncome * 100).toFixed(1);
+            document.getElementById('savingsRateDisplay').textContent = savingsRate + '%';
+
+            // Populate transactions table
+            const tbody = document.getElementById('transactionsTable');
+            tbody.innerHTML = '';
+            user.transactions.forEach(tx => {
+                const row = tbody.insertRow();
+                row.innerHTML = `
+                    <td>${tx.date}</td>
+                    <td>${tx.description}</td>
+                    <td class="${tx.type}">${tx.amount}</td>
+                    <td>${tx.status}</td>
+                `;
+            });
+
+            // Populate bills
+            populateBills();
+            
+            // Populate savings goals
+            populateSavingsGoals();
+
+            // Switch to dashboard
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('dashboardPage').style.display = 'block';
+        }
+
+        // Switch between sections
+        function switchSection(sectionName) {
+            // Hide all sections
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            // Hide all nav buttons active state
+            document.querySelectorAll('.nav-btn').forEach(btn => btn.classList.remove('active'));
+            
+            // Show selected section
+            document.getElementById(sectionName).classList.add('active');
+            // Add active state to button
+            event.target.classList.add('active');
+        }
+
+        // Populate bills
+        function populateBills() {
+            const user = users[currentUser];
+            const container = document.getElementById('billsContainer');
+            container.innerHTML = '';
+            
+            user.bills.forEach(bill => {
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `
+                    <h4>${bill.name}</h4>
+                    <div class="item-amount">$${bill.amount.toFixed(2)}</div>
+                    <div class="item-details">Due: ${bill.dueDate}</div>
+                    <div class="item-details">Status: ${bill.paid ? '✅ Paid' : '⏳ Pending'}</div>
+                    <button class="btn-submit" onclick="payBill('${bill.name}', ${bill.amount})" style="width: 100%; margin-top: 10px;">Pay Now</button>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Populate savings goals
+        function populateSavingsGoals() {
+            const user = users[currentUser];
+            const container = document.getElementById('savingsContainer');
+            container.innerHTML = '';
+            
+            user.savingsGoals.forEach(goal => {
+                const progress = (goal.saved / goal.target * 100).toFixed(0);
+                const card = document.createElement('div');
+                card.className = 'item-card';
+                card.innerHTML = `
+                    <h4>${goal.name}</h4>
+                    <div class="item-amount">$${goal.saved.toFixed(2)} / $${goal.target.toFixed(2)}</div>
+                    <div style="width: 100%; background: #e0e0e0; height: 8px; border-radius: 4px; margin: 10px 0; overflow: hidden;">
+                        <div style="background: linear-gradient(90deg, #667eea, #764ba2); height: 100%; width: ${progress}%;"></div>
+                    </div>
+                    <div class="item-details">${progress}% Complete</div>
+                    <div class="item-details">Target: ${goal.deadline}</div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        // Pay bill
+        function payBill(billName, amount) {
+            if (userBalance >= amount) {
+                userBalance -= amount;
+                document.getElementById('balanceDisplay').textContent = '$' + userBalance.toFixed(2);
+                alert(`Bill payment of $${amount.toFixed(2)} for "${billName}" processed!`);
+                const user = users[currentUser];
+                user.balance = userBalance;
+            } else {
+                alert('Insufficient balance!');
+            }
+        }
+
+        // Transfer form submission
+        document.addEventListener('DOMContentLoaded', function() {
+            if (document.getElementById('transferForm')) {
+                document.getElementById('transferForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const amount = parseFloat(document.getElementById('transferAmount').value);
+                    const recipient = document.getElementById('recipientName').value;
+
+                    if (userBalance >= amount) {
+                        document.getElementById('transferMessage').textContent = `❌ Transfer of $${amount.toFixed(2)} to ${recipient} failed!`;
+                        document.getElementById('transferMessage').className = 'error-message';
+                        document.getElementById('transferMessage').style.display = 'block';
+                        this.reset();
+                        setTimeout(() => {
+                            document.getElementById('transferMessage').style.display = 'none';
+                        }, 3000);
+                    } else {
+                        alert('Insufficient balance!');
+                    }
+                });
+            }
+
+            if (document.getElementById('billForm')) {
+                document.getElementById('billForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const billName = document.getElementById('billName').value;
+                    const amount = parseFloat(document.getElementById('billAmount').value);
+                    const dueDate = document.getElementById('billDueDate').value;
+
+                    const user = users[currentUser];
+                    user.bills.push({
+                        name: billName,
+                        amount: amount,
+                        dueDate: dueDate,
+                        paid: false
+                    });
+
+                    populateBills();
+                    this.reset();
+                    alert(`Bill "${billName}" added successfully!`);
+                });
+            }
+
+            if (document.getElementById('savingsForm')) {
+                document.getElementById('savingsForm').addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const goalName = document.getElementById('goalName').value;
+                    const target = parseFloat(document.getElementById('goalTarget').value);
+                    const saved = parseFloat(document.getElementById('goalSaved').value);
+                    const deadline = document.getElementById('goalDeadline').value;
+
+                    const user = users[currentUser];
+                    user.savingsGoals.push({
+                        name: goalName,
+                        target: target,
+                        saved: saved,
+                        deadline: deadline
+                    });
+
+                    populateSavingsGoals();
+                    this.reset();
+                    alert(`Savings goal "${goalName}" created successfully!`);
+                });
+            }
+        });
+
+        // Logout Function
+        function logout() {
+            currentUser = null;
+            document.getElementById('loginPage').style.display = 'flex';
+            document.getElementById('dashboardPage').style.display = 'none';
+            document.getElementById('loginForm').reset();
+        }
+
+        // Mobile Menu Toggle
+        function toggleMobileMenu() {
+            const sidebar = document.getElementById('sidebar');
+            sidebar.classList.toggle('open');
+        }
+
+        // Show/hide mobile menu button based on screen size
+        window.addEventListener('resize', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            if (window.innerWidth <= 768) {
+                menuToggle.style.display = 'block';
+            } else {
+                menuToggle.style.display = 'none';
+                document.getElementById('sidebar').classList.remove('open');
+            }
+        });
+
+        // Check on page load
+        window.addEventListener('load', function() {
+            const menuToggle = document.getElementById('menuToggle');
+            if (window.innerWidth <= 768) {
+                menuToggle.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
